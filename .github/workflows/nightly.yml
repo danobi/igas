@@ -20,7 +20,7 @@ jobs:
     - name: Ensure browsers are installed
       run: python -m playwright install --with-deps
     - name: Run your tests
-      run: ./update.py
+      run: python ./update.py
     - name: Check for changes
       id: check_changes
       run: |
