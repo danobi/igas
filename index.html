@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Slider</title>
+    <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.10/dayjs.min.js"></script>
+    <style>
+        @keyframes jiggle {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+            100% { transform: rotate(0deg); }
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            gap: 4rem;
+        }
+        button {
+            font-size: 4rem;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            animation: jiggle 0.25s ease-in-out 1.5;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #interrogation {
+            font-size: 4rem;
+            font-weight: 900;
+        }
+        #pronouncement {
+            font-size: 9rem;
+            font-weight: 900;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="interrogation">
+        Is Greenland a state yet?
+    </div>
+    <div id="pronouncement">
+        <button
+            hx-get="/01-11-2024.txt"
+            hx-trigger="click"
+            hx-target="#pronouncement"
+            hx-trigger="mouseup delay:300ms">
+            CHECK
+        </button>
+    </div>
+</body>
+</html>
