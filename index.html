@@ -13,6 +13,36 @@
             75% { transform: rotate(5deg); }
             100% { transform: rotate(0deg); }
         }
+        @keyframes dropIn {
+            0% { transform: translateY(-200vh); opacity: 0; }
+            70% { transform: translateY(20px); }
+            85% { transform: translateY(-10px); }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes dust {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            30% { opacity: 1; }
+            100% { transform: translateY(-20px) scale(2); opacity: 0; }
+        }
+
+        #pronouncement {
+            position: relative;
+        }
+        #pronouncement > div {
+            animation: dropIn 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            animation-delay: 0.5s;
+            opacity: 0;
+        }
+        #pronouncement.impact::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            width: 200px;
+            height: 20px;
+            animation: dust 0.6s ease-out forwards;
+            animation-delay: 1.2s;
+        }
         body {
             display: flex;
             flex-direction: column;
@@ -60,5 +90,14 @@
             CHECK
         </button>
     </div>
+    <script>
+        document.body.addEventListener('htmx:afterSwap', function(event) {
+            if (event.detail.target.id === 'pronouncement') {
+                event.detail.target.classList.add('impact');
+                const response = event.detail.target.innerText;
+                event.detail.target.innerHTML = `<div>${response}</div>`;
+            }
+        });
+    </script>
 </body>
 </html>
