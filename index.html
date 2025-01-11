@@ -5,7 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Is Greenland a state yet?</title>
     <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.10/dayjs.min.js"></script>
+    <meta
+	name="htmx-config"
+	content='{
+            "responseHandling":[
+                {"code":"404", "swap":false, "error":false},
+            ]
+        }'
+    />
     <style>
         body {
             display: flex;
@@ -75,5 +82,10 @@
             CHECK
         </button>
     </div>
+    <img id="proof"
+      hx-get="/proof"
+      hx-trigger="htmx:afterSettle from:#pronouncement"
+      hx-swap="outerHTML"
+    </img>
 </body>
 </html>
