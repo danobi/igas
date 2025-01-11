@@ -21,6 +21,8 @@ jobs:
       run: python -m playwright install --with-deps
     - name: Run your tests
       run: python ./update.py
+    - name: XXX dummy change
+      run: echo test > test.txt && echo img > img.png
     - name: Check for changes
       id: check_changes
       run: |
