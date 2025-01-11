@@ -1,0 +1,39 @@
+name: Check statehood changes
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Run at midnight UTC every day
+  workflow_dispatch:     # Allows manual triggering
+jobs:
+  test:
+    timeout-minutes: 60
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    - name: Ensure browsers are installed
+      run: python -m playwright install --with-deps
+    - name: Run your tests
+      run: ./update.py
+    - name: Check for changes
+      id: check_changes
+      run: |
+        set -x
+        git add -A
+        if [ -n "$(git status --porcelain)" ]; then
+          echo "changes_exist=true" >> $GITHUB_OUTPUT
+        else
+          echo "changes_exist=false" >> $GITHUB_OUTPUT
+        fi
+    - name: Commit and push if changes exist
+      if: steps.check_changes.outputs.changes_exist == 'true'
+      run: |
+        set -x
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git commit -m "Automated commit: change in statehood"
+        git push origin master
