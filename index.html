@@ -7,12 +7,6 @@
     <script src="https://unpkg.com/htmx.org@2.0.4" integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.10/dayjs.min.js"></script>
     <style>
-        @keyframes jiggle {
-            0% { transform: rotate(0deg); }
-            25% { transform: rotate(-5deg); }
-            75% { transform: rotate(5deg); }
-            100% { transform: rotate(0deg); }
-        }
         body {
             display: flex;
             flex-direction: column;
@@ -23,6 +17,12 @@
             font-family: Arial, sans-serif;
             text-align: center;
             gap: 4rem;
+        }
+        @keyframes jiggle {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(-5deg); }
+            75% { transform: rotate(5deg); }
+            100% { transform: rotate(0deg); }
         }
         button {
             font-size: 4rem;
@@ -40,12 +40,6 @@
         #interrogation {
             font-size: 4rem;
         }
-        @keyframes dropIn {
-            0% { transform: translateY(-200vh); opacity: 0; }
-            80% { transform: translateY(40px); }
-            90% { transform: translateY(-40px); }
-            100% { transform: translateY(0); opacity: 1; }
-        }
         #pronouncement {
             font-size: 9rem;
             font-weight: 900;
@@ -55,8 +49,14 @@
             opacity: 0;
             transition: opacity 0.5s ease-out;
         }
-        #pronouncement > div {
-            animation: dropIn 1s cubic-bezier(.17,.67,.83,.67) forwards;
+        @keyframes drop-in {
+            0% { transform: translateY(-200vh); opacity: 0; }
+            80% { transform: translateY(40px); }
+            90% { transform: translateY(-40px); }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+        #pronouncement.htmx-settling {
+            animation: drop-in 1s cubic-bezier(.17,.67,.83,.67) forwards;
             animation-delay: 0.5s;
             opacity: 0;
         }
@@ -70,19 +70,10 @@
         <button
             hx-get="/01-11-2024.txt"
             hx-trigger="click"
-            hx-swap="innerHTML swap:0.5s"
+            hx-swap="innerHTML swap:0.5s settle:1.5s"
             hx-target="#pronouncement">
             CHECK
         </button>
     </div>
-    <script>
-        document.body.addEventListener('htmx:afterSwap', function(event) {
-            if (event.detail.target.id === 'pronouncement') {
-                event.detail.target.classList.add('impact');
-                const response = event.detail.target.innerText;
-                event.detail.target.innerHTML = `<div>${response}</div>`;
-            }
-        });
-    </script>
 </body>
 </html>
